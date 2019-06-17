@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  web:
+    image: nginx:alpine # specify exactly version of nginx:alpine for production usage
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./:/var/www/html/site
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+  php:
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./:/var/www/html/site
